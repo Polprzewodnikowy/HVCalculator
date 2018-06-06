@@ -1,14 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="AcfController"
-            prefHeight="400.0" prefWidth="600.0">
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="AcfController">
 
-</AnchorPane>
+    <children>
+        <Label text="Temperatura powietrza:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="vTemperature" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Label text="°C" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+
+        <Label text="Ciśnienie powietrza:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="vPressure" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label text="kPa" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+
+        <Label text="Wilgotność powietrza (względna):" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="vRelativeHumidity" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Label text="\%" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+
+        <Label text="Wilgotność powietrza (bezwzględna):" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <TextField fx:id="vAbsoluteHumidity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <Label text="g/m^3" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+
+        <Label text="50% napięcie wyładowania zupełnego:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <TextField fx:id="vV50" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <Label text="kV" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+
+        <Label text="Minimalna droga przeskoku:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <TextField fx:id="vMinimumDischargePath" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <Label text="m" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+
+        <Label text="Typ napięcia:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+        <ChoiceBox fx:id="vVoltageType" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+        <Label text="" GridPane.columnIndex="2" GridPane.rowIndex="6"/>
+    </children>
+
+    <columnConstraints>
+        <ColumnConstraints />
+        <ColumnConstraints />
+        <ColumnConstraints />
+    </columnConstraints>
+
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+    </rowConstraints>
+
+</GridPane>

@@ -1,7 +1,6 @@
 /**
  *
  */
-
 public class AtmosphericCorrectionFactor {
 
     /**
@@ -15,9 +14,24 @@ public class AtmosphericCorrectionFactor {
      * Enum defining 3 types of voltage used in calculations
      */
     public enum voltageType {
-        DC,
-        AC,
-        IMPULSE,
+        DC {
+            @Override
+            public String toString() {
+                return "DC";
+            }
+        },
+        AC {
+            @Override
+            public String toString() {
+                return "AC";
+            }
+        },
+        IMPULSE {
+            @Override
+            public String toString() {
+                return "Impulse";
+            }
+        },
     }
 
     /**
@@ -46,11 +60,11 @@ public class AtmosphericCorrectionFactor {
      * Sets an air temperature used for calculations
      * @param temperature air temperature in °C, must be above -273.15 °C
      */
-    public void setTemperature(double temperature) {
+    public void setTemperature(double temperature) throws IllegalArgumentException {
         if (temperature >= -273.15) {
             this.temperature = temperature;
         } else {
-            throw new ArithmeticException("Air can't be colder than -273.15 °C");
+            throw new IllegalArgumentException("Air can't be colder than -273.15 °C");
         }
     }
 
@@ -66,11 +80,11 @@ public class AtmosphericCorrectionFactor {
      * Sets an air pressure used for calculations
      * @param pressure air pressure in kPa, must be greater or equal than 0 kPa
      */
-    public void setPressure(double pressure) throws ArithmeticException {
+    public void setPressure(double pressure) throws IllegalArgumentException {
         if (pressure >= 0.0) {
             this.pressure = pressure;
         } else {
-            throw new ArithmeticException("Pressure can't be negative");
+            throw new IllegalArgumentException("Pressure can't be negative");
         }
     }
 
@@ -86,13 +100,12 @@ public class AtmosphericCorrectionFactor {
      * Sets an absolute air humidity used for calculations
      * @param absoluteHumidity absolute air humidity in g/m^3, must be greater or equal than 0 g/m^3
      */
-    public void setAbsoluteHumidity(double absoluteHumidity) {
+    public void setAbsoluteHumidity(double absoluteHumidity) throws IllegalArgumentException {
         if (absoluteHumidity >= 0) {
             this.absoluteHumidity = absoluteHumidity;
         } else {
-            throw new ArithmeticException("Absolute air humidity can't be negative");
+            throw new IllegalArgumentException("Absolute air humidity can't be negative");
         }
-
     }
 
     /**
@@ -103,48 +116,88 @@ public class AtmosphericCorrectionFactor {
         return absoluteHumidity;
     }
 
-    public void setRelativeHumidity(double relativeHumidity) {
+    /**
+     *
+     * @param relativeHumidity
+     */
+    public void setRelativeHumidity(double relativeHumidity) throws IllegalArgumentException {
         if (relativeHumidity <= 0.0 && relativeHumidity >= 100.0) { // relative humidity must be in range from 0% to 100%
             absoluteHumidity = (6.11 * relativeHumidity * Math.exp((17.6 * temperature) / (243.0 + temperature))) / (0.4615 * (273.0 + temperature));
         } else {
-            throw new ArithmeticException("Relative air humidity can't be outside range of 0% - 100%");
+            throw new IllegalArgumentException("Relative air humidity can't be outside range of 0% - 100%");
         }
     }
 
+    /**
+     * Returns relative humidity calculated from absolute humidity and air temperature
+     * @return relative humidity in percents
+     */
     public double getRelativeHumidity() {
         return (0.4615 * absoluteHumidity * (273.0 + temperature)) / (6.11 * Math.exp((17.6 * temperature) / (243.0 + temperature)));
     }
 
+    /**
+     * Sets voltage type
+     * @param vType voltage type: DC, AC or impulse
+     */
     public void setVoltageType(voltageType vType) {
         this.vType = vType;
     }
 
+    /**
+     *
+     * @return
+     */
     public voltageType getVoltageType() {
         return vType;
     }
 
+    /**
+     *
+     * @param v50
+     */
     public void setV50(double v50) {
         this.v50 = Math.abs(v50); // this voltage value must be positive
     }
 
+    /**
+     *
+     * @return
+     */
     public double getV50() {
         return v50;
     }
 
+    /**
+     *
+     * @param minimumDischargePath
+     */
     public void setMinimumDischargePath(double minimumDischargePath) {
         this.minimumDischargePath = Math.abs(minimumDischargePath); // length must be positive
     }
 
+    /**
+     *
+     * @return
+     */
     public double getMinimumDischargePath() {
         return minimumDischargePath;
     }
 
+    //--------------------------------------------------
 
-
+    /**
+     *
+     * @return
+     */
     public double getRelativeAirDensity() {
         return ((pressure) / (REFERENCE_PRESSURE)) * ((273.0 + REFERENCE_TEMPERATURE) / (273.0 + temperature));
     }
 
+    /**
+     *
+     * @return
+     */
     public double getKFactor() {
         double k = 1;
         double absoluteHumidity = getAbsoluteHumidity();
@@ -167,6 +220,10 @@ public class AtmosphericCorrectionFactor {
         return k;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getGFactor() {
         double relativeAirDensity = getRelativeAirDensity();
         double k = getKFactor();
@@ -174,6 +231,10 @@ public class AtmosphericCorrectionFactor {
         return (v50) / (500.0 * minimumDischargePath * relativeAirDensity * k);
     }
 
+    /**
+     *
+     * @return
+     */
     public double getMFactor() {
         double m;
         double g = getGFactor();
@@ -189,6 +250,10 @@ public class AtmosphericCorrectionFactor {
         return m;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getWFactor() {
         double w;
         double g = getGFactor();
@@ -208,6 +273,10 @@ public class AtmosphericCorrectionFactor {
         return w;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getAirDensityCorrectionFactor() {
         double relativeAirDensity = getRelativeAirDensity();
         double mFactor = getMFactor();
@@ -215,6 +284,10 @@ public class AtmosphericCorrectionFactor {
         return Math.pow(relativeAirDensity, mFactor);
     }
 
+    /**
+     *
+     * @return
+     */
     public double getHumidityCorrectionFactor() {
         double kFactor = getKFactor();
         double wFactor = getWFactor();
@@ -222,6 +295,10 @@ public class AtmosphericCorrectionFactor {
         return Math.pow(kFactor, wFactor);
     }
 
+    /**
+     *
+     * @return
+     */
     public double getAtmosphericCorrectionFactor() {
         double airDensityCorrectionFactor = getAirDensityCorrectionFactor();
         double humidityCorrectionFactor = getHumidityCorrectionFactor();
