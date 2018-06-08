@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -7,52 +8,156 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="AcfController">
+<GridPane alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
 
     <children>
-        <Label text="Temperatura powietrza:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <TextField fx:id="vTemperature" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-        <Label text="°C" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+        <Label text="Temperatura:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
+        <TextField fx:id="Temperature" GridPane.columnIndex="1" GridPane.rowIndex="0">
+            <GridPane.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            </GridPane.margin>
+        </TextField>
+        <Label text="°C" GridPane.columnIndex="2" GridPane.rowIndex="0">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
 
-        <Label text="Ciśnienie powietrza:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <TextField fx:id="vPressure" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Label text="kPa" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
 
-        <Label text="Wilgotność powietrza (względna):" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <TextField fx:id="vRelativeHumidity" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-        <Label text="\%" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
 
-        <Label text="Wilgotność powietrza (bezwzględna):" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-        <TextField fx:id="vAbsoluteHumidity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-        <Label text="g/m^3" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+        <Label text="Ciśnienie:" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
+        <TextField fx:id="Pressure" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <GridPane.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            </GridPane.margin>
+        </TextField>
+        <Label text="hPa" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
 
-        <Label text="50% napięcie wyładowania zupełnego:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-        <TextField fx:id="vV50" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-        <Label text="kV" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
 
-        <Label text="Minimalna droga przeskoku:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-        <TextField fx:id="vMinimumDischargePath" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-        <Label text="m" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
 
-        <Label text="Typ napięcia:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
-        <ChoiceBox fx:id="vVoltageType" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-        <Label text="" GridPane.columnIndex="2" GridPane.rowIndex="6"/>
+        <Label text="Wilgotność (względna):" GridPane.columnIndex="0" GridPane.rowIndex="2">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
+        <TextField fx:id="RelativeHumidity" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <GridPane.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            </GridPane.margin>
+        </TextField>
+        <Label text="\%" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
+
+
+        <Label text="Wilgotność (bezwzględna):" GridPane.columnIndex="0" GridPane.rowIndex="3">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
+        <TextField fx:id="AbsoluteHumidity" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <GridPane.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            </GridPane.margin>
+        </TextField>
+        <Label text="g/m^3" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
+
+
+        <Label text="50% napięcie:" GridPane.columnIndex="0" GridPane.rowIndex="4">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
+        <TextField fx:id="V50" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <GridPane.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            </GridPane.margin>
+        </TextField>
+        <Label text="kV" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
+
+
+        <Label text="Min. dorga przeskoku:" GridPane.columnIndex="0" GridPane.rowIndex="5">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
+        <TextField fx:id="MinimumDischargePath" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <GridPane.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            </GridPane.margin>
+        </TextField>
+        <Label text="m" GridPane.columnIndex="2" GridPane.rowIndex="5">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
+
+
+        <Label text="Typ napięcia:" GridPane.columnIndex="0" GridPane.rowIndex="6">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
+        <ChoiceBox fx:id="VoltageType" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <GridPane.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            </GridPane.margin>
+        </ChoiceBox>
+
+
+        <Label text="Współczynnik:" GridPane.columnIndex="0" GridPane.rowIndex="7">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
+        <Label fx:id="AtmosphericCorrectionFactor" GridPane.columnIndex="1" GridPane.rowIndex="7">
+        <padding>
+            <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+        </padding>
+        </Label>
     </children>
 
     <columnConstraints>
         <ColumnConstraints />
-        <ColumnConstraints />
+        <ColumnConstraints hgrow="ALWAYS" />
         <ColumnConstraints />
     </columnConstraints>
 
     <rowConstraints>
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints vgrow="ALWAYS" />
     </rowConstraints>
+
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
 
 </GridPane>

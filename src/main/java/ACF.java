@@ -1,18 +1,9 @@
-/**
- *
- */
-public class AtmosphericCorrectionFactor {
+public class ACF {
 
-    /**
-     * Global constants used in calculations
-     */
     static final double REFERENCE_TEMPERATURE = 20;         // °C
-    static final double REFERENCE_PRESSURE = 101.3;         // kPa
+    static final double REFERENCE_PRESSURE = 1013;          // hPa
     static final double REFERENCE_ABSOLUTE_HUMIDITY = 11;   // g/m^3
 
-    /**
-     * Enum defining 3 types of voltage used in calculations
-     */
     public enum voltageType {
         DC {
             @Override
@@ -29,14 +20,11 @@ public class AtmosphericCorrectionFactor {
         IMPULSE {
             @Override
             public String toString() {
-                return "Impulse";
+                return "Udarowe";
             }
         },
     }
 
-    /**
-     * Private variables
-     */
     private double temperature;
     private double pressure;
     private double absoluteHumidity;
@@ -44,22 +32,15 @@ public class AtmosphericCorrectionFactor {
     private double v50;
     private double minimumDischargePath;
 
-    /**
-     * Constructor class for high voltage atmospheric correction factor calculator
-     */
-    public AtmosphericCorrectionFactor() {
+    public ACF() {
         temperature = REFERENCE_TEMPERATURE;
         pressure = REFERENCE_PRESSURE;
         absoluteHumidity = REFERENCE_ABSOLUTE_HUMIDITY;
         vType = voltageType.DC;
-        v50 = 1.0;
-        minimumDischargePath = 1.0;
+        v50 = 100.0;
+        minimumDischargePath = 0.1;
     }
 
-    /**
-     * Sets an air temperature used for calculations
-     * @param temperature air temperature in °C, must be above -273.15 °C
-     */
     public void setTemperature(double temperature) throws IllegalArgumentException {
         if (temperature >= -273.15) {
             this.temperature = temperature;
@@ -68,18 +49,10 @@ public class AtmosphericCorrectionFactor {
         }
     }
 
-    /**
-     * Returns air temperature used for calculations
-     * @return temperature in °C
-     */
     public double getTemperature() {
         return temperature;
     }
 
-    /**
-     * Sets an air pressure used for calculations
-     * @param pressure air pressure in kPa, must be greater or equal than 0 kPa
-     */
     public void setPressure(double pressure) throws IllegalArgumentException {
         if (pressure >= 0.0) {
             this.pressure = pressure;
@@ -88,18 +61,10 @@ public class AtmosphericCorrectionFactor {
         }
     }
 
-    /**
-     * Returns pressure used for calculations
-     * @return temperature in kPa
-     */
     public double getPressure() {
         return pressure;
     }
 
-    /**
-     * Sets an absolute air humidity used for calculations
-     * @param absoluteHumidity absolute air humidity in g/m^3, must be greater or equal than 0 g/m^3
-     */
     public void setAbsoluteHumidity(double absoluteHumidity) throws IllegalArgumentException {
         if (absoluteHumidity >= 0) {
             this.absoluteHumidity = absoluteHumidity;
@@ -108,97 +73,65 @@ public class AtmosphericCorrectionFactor {
         }
     }
 
-    /**
-     * Returns absolute air humidity used for calculations
-     * @return absolute air humidity in g/m^3
-     */
     public double getAbsoluteHumidity() {
         return absoluteHumidity;
     }
 
-    /**
-     *
-     * @param relativeHumidity
-     */
     public void setRelativeHumidity(double relativeHumidity) throws IllegalArgumentException {
-        if (relativeHumidity <= 0.0 && relativeHumidity >= 100.0) { // relative humidity must be in range from 0% to 100%
+        if (relativeHumidity >= 0.0 && relativeHumidity <= 100.0) {
             absoluteHumidity = (6.11 * relativeHumidity * Math.exp((17.6 * temperature) / (243.0 + temperature))) / (0.4615 * (273.0 + temperature));
         } else {
             throw new IllegalArgumentException("Relative air humidity can't be outside range of 0% - 100%");
         }
     }
 
-    /**
-     * Returns relative humidity calculated from absolute humidity and air temperature
-     * @return relative humidity in percents
-     */
     public double getRelativeHumidity() {
         return (0.4615 * absoluteHumidity * (273.0 + temperature)) / (6.11 * Math.exp((17.6 * temperature) / (243.0 + temperature)));
     }
 
-    /**
-     * Sets voltage type
-     * @param vType voltage type: DC, AC or impulse
-     */
     public void setVoltageType(voltageType vType) {
         this.vType = vType;
     }
 
-    /**
-     *
-     * @return
-     */
     public voltageType getVoltageType() {
         return vType;
     }
 
-    /**
-     *
-     * @param v50
-     */
-    public void setV50(double v50) {
-        this.v50 = Math.abs(v50); // this voltage value must be positive
+    public void setV50(double v50) throws IllegalArgumentException {
+        if (v50 >= 0) {
+            this.v50 = v50;
+        } else {
+            throw new IllegalArgumentException("This voltage must be positive");
+        }
     }
 
-    /**
-     *
-     * @return
-     */
     public double getV50() {
         return v50;
     }
 
-    /**
-     *
-     * @param minimumDischargePath
-     */
-    public void setMinimumDischargePath(double minimumDischargePath) {
-        this.minimumDischargePath = Math.abs(minimumDischargePath); // length must be positive
+    public void setMinimumDischargePath(double minimumDischargePath) throws IllegalArgumentException {
+        if (minimumDischargePath >= 0) {
+            this.minimumDischargePath = minimumDischargePath;
+        } else {
+            throw new IllegalArgumentException("Distance must be positive");
+        }
     }
 
-    /**
-     *
-     * @return
-     */
     public double getMinimumDischargePath() {
         return minimumDischargePath;
     }
 
+
+
     //--------------------------------------------------
 
-    /**
-     *
-     * @return
-     */
-    public double getRelativeAirDensity() {
+
+
+    private double getRelativeAirDensity() {
         return ((pressure) / (REFERENCE_PRESSURE)) * ((273.0 + REFERENCE_TEMPERATURE) / (273.0 + temperature));
     }
 
-    /**
-     *
-     * @return
-     */
-    public double getKFactor() {
+    private double getKFactor() {
         double k = 1;
         double absoluteHumidity = getAbsoluteHumidity();
         double relativeAirDensity = getRelativeAirDensity();
@@ -220,22 +153,14 @@ public class AtmosphericCorrectionFactor {
         return k;
     }
 
-    /**
-     *
-     * @return
-     */
-    public double getGFactor() {
+    private double getGFactor() {
         double relativeAirDensity = getRelativeAirDensity();
         double k = getKFactor();
 
         return (v50) / (500.0 * minimumDischargePath * relativeAirDensity * k);
     }
 
-    /**
-     *
-     * @return
-     */
-    public double getMFactor() {
+    private double getMFactor() {
         double m;
         double g = getGFactor();
 
@@ -250,11 +175,7 @@ public class AtmosphericCorrectionFactor {
         return m;
     }
 
-    /**
-     *
-     * @return
-     */
-    public double getWFactor() {
+    private double getWFactor() {
         double w;
         double g = getGFactor();
 
@@ -273,32 +194,20 @@ public class AtmosphericCorrectionFactor {
         return w;
     }
 
-    /**
-     *
-     * @return
-     */
-    public double getAirDensityCorrectionFactor() {
+    private double getAirDensityCorrectionFactor() {
         double relativeAirDensity = getRelativeAirDensity();
         double mFactor = getMFactor();
 
         return Math.pow(relativeAirDensity, mFactor);
     }
 
-    /**
-     *
-     * @return
-     */
-    public double getHumidityCorrectionFactor() {
+    private double getHumidityCorrectionFactor() {
         double kFactor = getKFactor();
         double wFactor = getWFactor();
 
         return Math.pow(kFactor, wFactor);
     }
 
-    /**
-     *
-     * @return
-     */
     public double getAtmosphericCorrectionFactor() {
         double airDensityCorrectionFactor = getAirDensityCorrectionFactor();
         double humidityCorrectionFactor = getHumidityCorrectionFactor();

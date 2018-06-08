@@ -4,27 +4,23 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+
 public class Main extends Application {
 
-    /**
-     *
-     * @param primaryStage
-     * @throws Exception
-     */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("AcfView.fxml"));
+        Locale.setDefault(Locale.US);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("View.fxml"));
+
         Parent root = loader.load();
-        primaryStage.setTitle("Kalkulator współczynnika korekcyjnego na warunki atmosferyczne");
-        //primaryStage.setScene(new Scene(root, 800, 600));
+
+        primaryStage.setTitle("Kalkulator współczynnika korekcyjnego");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 
-    /**
-     *
-     * @param args
-     */
     public static void main(String[] args) {
         launch(args);
     }
